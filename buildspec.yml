@@ -2,8 +2,7 @@ version: 0.2
 
 phases:
   install:
-    runtime-versions:
-      nodejs: 18 # Example of specifying a runtime version
+    
     commands:
       - echo Installing dependencies
       - npm install
