@@ -4,4 +4,4 @@
 cd /var/www/myapp
 
 # Install dependencies
-npm install
+#npm install
