@@ -2,8 +2,8 @@ version: 0.2
 phases:
   install:
     commands:
-      - cd /codebuild/output/src*/src  # Adjust this path based on your actual artifact structure
-      - ls  # Optional: List files to verify directory contents
+      - cd /codebuild/output/src*/src  # Ensure this path matches the artifact structure
+      - ls  # Verify the contents of the directory
       - npm install
   build:
     commands:
