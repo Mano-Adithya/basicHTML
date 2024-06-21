@@ -2,12 +2,10 @@ version: 0.2
 phases:
   install:
     commands:
-      - cd /codebuild/output/src*/src
-      - npm cache clean --force  # Clean npm cache
-      - npm install
+      - npm install  # Example build commands
   build:
     commands:
       - npm run build
 artifacts:
   files:
-    - '**/*'
+    - '**/*'  # Include all files in the artifact
