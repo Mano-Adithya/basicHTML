@@ -16,16 +16,12 @@ phases:
   post_build:
     commands:
       - echo "Starting deployment to EC2"
-      # The path to your private key file for SSH access
-      - chmod 600 /path/to/your/private-key.pem
-      # The IP address or DNS name of your EC2 instance
+      - aws ssm get-parameter --name /my/secure/path/private-key --with-decryption --query Parameter.Value --output text > private-key.pem
+      - chmod 600 private-key.pem
       - EC2_INSTANCE=ec2-user@your-ec2-instance-public-dns
-      # Ensure that the destination directory exists on the EC2 instance
-      - ssh -o StrictHostKeyChecking=no -i /path/to/your/private-key.pem $EC2_INSTANCE 'mkdir -p /var/www/html'
-      # Copy the build artifacts to the EC2 instance
-      - scp -o StrictHostKeyChecking=no -i /path/to/your/private-key.pem -r ./dist/* $EC2_INSTANCE:/var/www/html/
-      # Optionally, restart any services on the EC2 instance if needed
-      - ssh -o StrictHostKeyChecking=no -i /path/to/your/private-key.pem $EC2_INSTANCE 'sudo systemctl restart myapp.service'
+      - ssh -o StrictHostKeyChecking=no -i private-key.pem $EC2_INSTANCE 'mkdir -p /var/www/html'
+      - scp -o StrictHostKeyChecking=no -i private-key.pem -r ./dist/* $EC2_INSTANCE:/var/www/html/
+      - ssh -o StrictHostKeyChecking=no -i private-key.pem $EC2_INSTANCE 'sudo systemctl restart myapp.service'
 
 artifacts:
   files:
