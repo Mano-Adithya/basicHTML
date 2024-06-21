@@ -2,12 +2,12 @@ version: 0.2
 phases:
   install:
     commands:
-      - cd /codebuild/output/src*/src  # Ensure this path matches the artifact structure
-      - ls  # Verify the contents of the directory
+      - cd /codebuild/output/src*/src
+      - npm cache clean --force  # Clean npm cache
       - npm install
   build:
     commands:
-      - npm run build  # Adjust as per your build process
+      - npm run build
 artifacts:
   files:
-    - '**/*'  # Include all files in the artifact
+    - '**/*'
