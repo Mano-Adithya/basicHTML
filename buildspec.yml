@@ -1,11 +1,14 @@
 version: 0.2
 phases:
   install:
+    runtime-versions:
+      nodejs: 14  # Adjust to your Node.js version if applicable
     commands:
-      - npm install  # Example build commands
+      - echo "No dependencies to install"
   build:
     commands:
-      - npm run build
+      - echo "Build steps here"
+      # Add commands to deploy your files to EC2 or other targets
 artifacts:
   files:
-    - '**/*'  # Include all files in the artifact
+    - '**/*'  # Include all necessary files for deployment
