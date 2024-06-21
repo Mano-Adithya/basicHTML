@@ -1,14 +1,32 @@
 version: 0.2
+
 phases:
   install:
     runtime-versions:
-      nodejs: 14  # Adjust to your Node.js version if applicable
+      nodejs: 14
     commands:
       - echo "No dependencies to install"
+
   build:
     commands:
       - echo "Build steps here"
-      # Add commands to deploy your files to EC2 or other targets
+      # Add your build commands here if any
+      # - npm run build
+
+  post_build:
+    commands:
+      - echo "Starting deployment to EC2"
+      # The path to your private key file for SSH access
+      - chmod 600 /path/to/your/private-key.pem
+      # The IP address or DNS name of your EC2 instance
+      - EC2_INSTANCE=ec2-user@your-ec2-instance-public-dns
+      # Ensure that the destination directory exists on the EC2 instance
+      - ssh -o StrictHostKeyChecking=no -i /path/to/your/private-key.pem $EC2_INSTANCE 'mkdir -p /var/www/html'
+      # Copy the build artifacts to the EC2 instance
+      - scp -o StrictHostKeyChecking=no -i /path/to/your/private-key.pem -r ./dist/* $EC2_INSTANCE:/var/www/html/
+      # Optionally, restart any services on the EC2 instance if needed
+      - ssh -o StrictHostKeyChecking=no -i /path/to/your/private-key.pem $EC2_INSTANCE 'sudo systemctl restart myapp.service'
+
 artifacts:
   files:
-    - '**/*'  # Include all necessary files for deployment
+    - '**/*'
