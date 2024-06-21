@@ -2,11 +2,12 @@ version: 0.2
 phases:
   install:
     commands:
-      - cd /codebuild/output/src*/src  # Ensure this path matches the location of package.json
+      - cd /codebuild/output/src*/src  # Adjust this path based on your actual artifact structure
+      - ls  # Optional: List files to verify directory contents
       - npm install
   build:
     commands:
-      - npm run build
+      - npm run build  # Adjust as per your build process
 artifacts:
   files:
-    - '**/*'
+    - '**/*'  # Include all files in the artifact
