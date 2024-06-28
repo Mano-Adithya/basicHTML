@@ -2,27 +2,27 @@ version: 0.2
 
 phases:
   install:
-    runtime-versions:
-      nodejs: 14
     commands:
-      - echo "No dependencies to install"
-
+      - echo Installing dependencies...
+      - echo Dependencies installed.
+  pre_build:
+    commands:
+      - echo Preparing build environment...
+      - echo Environment prepared.
   build:
     commands:
-      - echo "Build steps here"
-      # Add your build commands here if any
-      # - npm run build
-
+      - echo Building the project...
+      - echo "The build process goes here, e.g., mvn clean install for a Maven project"
   post_build:
     commands:
-      - echo "Starting deployment to EC2"
-      - aws ssm get-parameter --name /my/secure/path/private-key --with-decryption --query Parameter.Value --output text > private-key.pem
-      - chmod 600 private-key.pem
-      - EC2_INSTANCE=ec2-user@your-ec2-instance-public-dns
-      - ssh -o StrictHostKeyChecking=no -i private-key.pem $EC2_INSTANCE 'mkdir -p /var/www/html'
-      - scp -o StrictHostKeyChecking=no -i private-key.pem -r ./dist/* $EC2_INSTANCE:/var/www/html/
-      - ssh -o StrictHostKeyChecking=no -i private-key.pem $EC2_INSTANCE 'sudo systemctl restart myapp.service'
+      - echo Build completed.
 
 artifacts:
   files:
-    - '**/*'
+    - '**/*'  # Adjust this pattern based on your project's file structure
+  base-directory: 'build_output'  # Directory where the build output is stored
+  discard-paths: yes  # Optional: Discards the path information of the files
+
+cache:
+  paths:
+    - '/root/.m2/**/*'  # Example for Maven, adjust for your dependency manager
